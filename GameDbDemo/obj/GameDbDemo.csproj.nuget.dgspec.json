@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj": {}
+    "c:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj": {
+    "c:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj",
+        "projectUniqueName": "c:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj",
         "projectName": "GameDbDemo",
-        "projectPath": "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj",
+        "projectPath": "c:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj",
         "packagesPath": "C:\\Users\\holmesa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\obj\\",
+        "outputPath": "c:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -25,8 +25,6 @@
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\holmesa\\vscode\\LocalNuget": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -50,6 +48,12 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
+          "dependencies": {
+            "System.Data.SQLite": {
+              "target": "Package",
+              "version": "[2.0.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

@@ -1,2 +1,17 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System.Data.SQLite;
+
+namespace sqlitecrud
+{
+    class SqliteCRUDOps
+    {
+        
+
+        public static void Main(string[] Args)
+        {
+            
+        }// main
+    }//class SqliteCRUDOps
+    
+    
+    
+}//namespace
