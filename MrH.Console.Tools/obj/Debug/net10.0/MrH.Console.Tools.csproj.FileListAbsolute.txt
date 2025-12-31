@@ -1,0 +1,12 @@
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\bin\Debug\net10.0\MrH.Console.Tools.deps.json
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\bin\Debug\net10.0\MrH.Console.Tools.dll
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\bin\Debug\net10.0\MrH.Console.Tools.pdb
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\MrH.Console.Tools.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\MrH.Console.Tools.AssemblyInfoInputs.cache
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\MrH.Console.Tools.AssemblyInfo.cs
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\MrH.Console.Tools.csproj.CoreCompileInputs.cache
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\MrH.Console.Tools.sourcelink.json
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\MrH.Console.Tools.dll
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\refint\MrH.Console.Tools.dll
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\MrH.Console.Tools.pdb
+C:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.Console.Tools\obj\Debug\net10.0\ref\MrH.Console.Tools.dll
