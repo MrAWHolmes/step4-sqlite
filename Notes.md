@@ -510,5 +510,47 @@ REF: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dic
 Improvments to Openning the database - if it does not exist
 Choosing creatioon mode with SqliteOpenMode parameter!
 
-file: Program.cs - Method 
+file: Program.cs - Method GetMSLConnect so it now
+constrol the automatic databse creation through the 
+SqliteOpenMode OpenMode parameter:
+
+```cs
+   public static SqliteConnection GetMSLConnect(string dbFileName,SqliteOpenMode OpenMode=SqliteOpenMode.ReadWriteCreate)
+        {
+            //SqliteConnection Conn;
+
+            string filePath = MrH.Console.Tools.Contools.filePath("data",dbFileName );
+            System.Console.WriteLine($"filePath = {filePath}");
+            
+            
+            var csb = new SqliteConnectionStringBuilder()
+            {
+                DataSource = filePath,
+                ForeignKeys = true,             // enforces FK constraints
+                Mode = OpenMode
+                
+            };
+
+            string ConnectionString = csb.ToString();
+
+            var Conn  = new SqliteConnection(ConnectionString);
+                                                  
+            //Open + Close creates the file
+            try{
+                Conn.Open();
+                Conn.Close(); 
+                return Conn;
+            }//try
+            catch (SqliteException ex)
+            {
+                
+                Console.WriteLine("SQLite error while opening the existing database:");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Check that the file isn't corrupted and the connection string is correct.");
+
+                throw;
+
+            }//catch
+        }//GetMSLConnect        
+```
 

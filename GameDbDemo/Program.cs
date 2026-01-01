@@ -9,7 +9,28 @@ namespace sqlitecrud
 {
     class SqliteCRUDOps
     {
-        //Dictionary SqlQeries <string,string>  ;
+        Dictionary<string,string> SqlQueries ; 
+
+        public static void BuildSqlQueries(){
+            This.SqlQueries = new Dictionary<string,string>();
+
+            try
+            {
+                BuildSqlQueries.Add("CreateXanthiumTable",
+                                     @"CREATE TABLE IF NOT EXISTS Customers(
+                                      Id INTEGER PRIMARY KEY)
+
+                                     "
+                                    );
+
+            }
+            catch(Exception Ex)
+            {
+                System.Console.WriteLine("Caller BuildSqlQueries()");
+                System.Console.WriteLine($"Dictionary Key Exception!");
+                System.Console.WriteLine(Ex);
+            }
+        }
 
         public static SqliteConnection GetMSLConnect(string dbFileName,SqliteOpenMode OpenMode=SqliteOpenMode.ReadWriteCreate)
         {
@@ -29,18 +50,8 @@ namespace sqlitecrud
 
             string ConnectionString = csb.ToString();
 
-
-            
-            /* Handle overriding through the SqliteOpenMode paramter instead!
-            //if file does not exist WARN!
-            if (!File.Exists(filePath))
-            {   //force creation only if user responds Y/y
-                if (MrH.Console.Tools.Contools.YesOrNo($"Warning! {filePath} databse does not exist.",
-                                                       "Create a new EMPTY database.")) {
-            */    
             var Conn  = new SqliteConnection(ConnectionString);
-            
-                                                
+                                                  
             //Open + Close creates the file
             try{
                 Conn.Open();
@@ -57,51 +68,6 @@ namespace sqlitecrud
                 throw;
 
             }//catch
-                /*                       
-                }// then user said Yes
-                else //do not create!
-                {
-                    System.Console.WriteLine("Critical Error! Database file not found!");
-                    System.Console.WriteLine($"Ensure the path {filePath} is correct.");
-                    System.Console.WriteLine($"Ensure the file {dbFileName} is in the above path!");
-
-                    System.Console.WriteLine();
-                    System.Console.WriteLine("Press any key to exit...");
-                    System.Console.ReadKey();
-
-                    //graceful exit
-                    //Error code 2 is file not found
-                    Environment.Exit(2);
-
-                    //unreachable, but yields a throw which satisfies compiler error
-                    throw new OperationCanceledException("Process exited due to missing database.");
-
-                }// User said N so gracefull exit ELSE
-            }  
-                            //file exists - open and close?       
-                
-                Conn  = new SqliteConnection(ConnectionString);
-
-                //Open + Close creates the file?
-               //Open + Close creates the file
-                    try{
-                        Conn.Open();
-                        Conn.Close(); 
-                        return Conn;
-                    }
-                    catch (SqliteException ex)
-                    {
-                        
-                        Console.WriteLine("SQLite error while opening the existing database:");
-                        Console.WriteLine(ex.Message);
-                        Console.WriteLine("Check that the file isn't corrupted and the connection string is correct.");
-
-                        throw;
-
-                    }
-
-                //return Conn;
-                */
         }//GetMSLConnect        
 
         public static void Test_GetMSLConnect()
@@ -128,7 +94,9 @@ namespace sqlitecrud
            //Run Tests.. first attempt
            Test_GetMSLConnect();
 
-           UsingStatmenOpentDemo(runme:true); // crash as db does not exist and cant create as in 'ReadWrite' mode!
+           UsingStatmenOpentDemo(runme:false); // crash as db does not exist and cant create as in 'ReadWrite' mode!
+
+           Sql
 
 
            //adapte from Hello, World
