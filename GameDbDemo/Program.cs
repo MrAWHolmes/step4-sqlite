@@ -1,17 +1,21 @@
 ﻿//file : GameDbDemo\Program.cs
 
-//using System.Data.SQLite; <--
+//using System.Data.SQLite; <-- Problematic with c# .. go figure!
 using Microsoft.Data.Sqlite;     // ADD this
+using Microsoft.VisualBasic;
 using MrH.Console.Tools;
 
 namespace sqlitecrud
 {
     class SqliteCRUDOps
     {
-        public static SqliteConnection GetMSLConnect(string dbFileName)
+        //Dictionary SqlQeries <string,string>  ;
+
+        public static SqliteConnection GetMSLConnect(string dbFileName,SqliteOpenMode OpenMode=SqliteOpenMode.ReadWriteCreate)
         {
-            
-            string filePath = MrH.Console.Tools.Contools.filePath("data",dbFileName);
+            //SqliteConnection Conn;
+
+            string filePath = MrH.Console.Tools.Contools.filePath("data",dbFileName );
             System.Console.WriteLine($"filePath = {filePath}");
             
             
@@ -19,42 +23,41 @@ namespace sqlitecrud
             {
                 DataSource = filePath,
                 ForeignKeys = true,             // enforces FK constraints
-                Mode = SqliteOpenMode.ReadWriteCreate
-
+                Mode = OpenMode
                 
             };
 
             string ConnectionString = csb.ToString();
 
 
-            SqliteConnection Conn;
-
+            
+            /* Handle overriding through the SqliteOpenMode paramter instead!
             //if file does not exist WARN!
             if (!File.Exists(filePath))
             {   //force creation only if user responds Y/y
                 if (MrH.Console.Tools.Contools.YesOrNo($"Warning! {filePath} databse does not exist.",
                                                        "Create a new EMPTY database.")) {
+            */    
+            var Conn  = new SqliteConnection(ConnectionString);
+            
+                                                
+            //Open + Close creates the file
+            try{
+                Conn.Open();
+                Conn.Close(); 
+                return Conn;
+            }//try
+            catch (SqliteException ex)
+            {
                 
-                    Conn  = new SqliteConnection(ConnectionString);
-                    
+                Console.WriteLine("SQLite error while opening the existing database:");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Check that the file isn't corrupted and the connection string is correct.");
 
-                    //Open + Close creates the file
-                    try{
-                        Conn.Open();
-                        Conn.Close(); 
-                        return Conn;
-                    }
-                    catch (SqliteException ex)
-                    {
-                        
-                        Console.WriteLine("SQLite error while opening the existing database:");
-                        Console.WriteLine(ex.Message);
-                        Console.WriteLine("Check that the file isn't corrupted and the connection string is correct.");
+                throw;
 
-                        throw;
-
-                    }
-                                       
+            }//catch
+                /*                       
                 }// then user said Yes
                 else //do not create!
                 {
@@ -80,10 +83,25 @@ namespace sqlitecrud
                 Conn  = new SqliteConnection(ConnectionString);
 
                 //Open + Close creates the file?
-                Conn.Open();
-                Conn.Close(); 
+               //Open + Close creates the file
+                    try{
+                        Conn.Open();
+                        Conn.Close(); 
+                        return Conn;
+                    }
+                    catch (SqliteException ex)
+                    {
+                        
+                        Console.WriteLine("SQLite error while opening the existing database:");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Check that the file isn't corrupted and the connection string is correct.");
 
-                return Conn;
+                        throw;
+
+                    }
+
+                //return Conn;
+                */
         }//GetMSLConnect        
 
         public static void Test_GetMSLConnect()
@@ -107,11 +125,64 @@ namespace sqlitecrud
 
         public static void Main(string[] Args)
         {
-           //Run Tests..
+           //Run Tests.. first attempt
            Test_GetMSLConnect();
+
+           UsingStatmenOpentDemo(runme:true); // crash as db does not exist and cant create as in 'ReadWrite' mode!
+
+
+           //adapte from Hello, World
+           // REF :: https://github.com/dotnet/docs/blob/main/samples/snippets/standard/data/sqlite/HelloWorldSample/Program.cs
+           
            
             
         }// main
+
+        static void UsingStatmenOpentDemo(bool runme)
+        {   if (!runme) return;
+            System.Console.WriteLine("We try and open ''xanthium2.db' which dne in SqliteOpenMode = 'ReadWrite'");
+            System.Console.WriteLine("This will throw an exception rather than force creation!'");
+
+            System.Console.WriteLine("Connection to 'xanthium2.db'...");
+            var Conn = GetMSLConnect("xanthium2.db",SqliteOpenMode.ReadWrite);
+            // using closes when statement ends
+
+
+            using (Conn)
+            {
+                Conn.Open();
+            }//using
+        }
+
+        static void UsingStatmentDemo()
+        {
+            System.Console.WriteLine("Connection to 'xanthium.db'...");
+            var Conn = GetMSLConnect("xanthium.db",SqliteOpenMode.ReadWrite);
+            // using closes when statement ends
+
+            
+            using (Conn)
+            {
+                Conn.Open();
+            }//using
+        }//UsingStatmentDemo
+
+         static void CreateTableWithUsing(string SqlQuery)
+        {
+            System.Console.WriteLine("Connection to 'xanthium.db'...");
+            var Conn = GetMSLConnect("xanthium.db",SqliteOpenMode.ReadWrite);
+            // using closes when statement ends
+            using (Conn)
+            {
+                Conn.Open();
+            }//using
+        }//CreateTableWithUsing
+
+
+        static void CreateAndSeed()
+        {
+            
+        }
     }//class SqliteCRUDOps
     
     

@@ -500,3 +500,15 @@ Using Conn to perform Conn.Close()
 Conn.State : Closed
 ```
 
+NOTE on NUGETS!!!
+
+SQLitePCLRaw provides convenience-based bundle packages, that make it easy to bring in the right dependencies across different platforms. The main Microsoft.Data.Sqlite package brings in SQLitePCLRaw.bundle_e_sqlite3 by default. To use a different bundle, install the Microsoft.Data.Sqlite.Core package instead along with the bundle package you want to use. Bundles are automatically initialized by Microsoft.Data.Sqlite.
+
+// Dictionary Work
+REF: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=net-10.0
+
+Improvments to Openning the database - if it does not exist
+Choosing creatioon mode with SqliteOpenMode parameter!
+
+file: Program.cs - Method 
+
