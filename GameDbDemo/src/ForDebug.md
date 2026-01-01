@@ -1,10 +1,5 @@
-﻿//file : GameDbDemo\Program.cs
 
-//using System.Data.SQLite; <-- Problematic with c# .. go figure!
-using System.Data;
-using Microsoft.Data.Sqlite;     // ADD this
-using Microsoft.VisualBasic;
-using MrH.Console.Tools;
+```cs
 
 namespace sqlitecrud
 {
@@ -105,26 +100,8 @@ namespace sqlitecrud
             }//catch
         }//GetMSLConnect        
 
-        public static void Test_GetMSLConnect()
-        {
-            System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = GetMSLConnect("xanthium.db");
 
-            System.Console.WriteLine($"Conn is {Conn}");
-
-            System.Console.WriteLine($"Conn.State : {Conn.State}");
-
-            System.Console.WriteLine("Using Conn to perform Conn.Open()");
-            Conn.Open();
-            System.Console.WriteLine($"Conn.State : {Conn.State}");
-
-            System.Console.WriteLine("Using Conn to perform Conn.Close()");
-            Conn.Close();
-            System.Console.WriteLine($"Conn.State : {Conn.State}");
-            
-        }
-
-        public static void Main(string[] Args)
+         public static void Main(string[] Args)
         {
            //Run Tests.. first attempt
            
@@ -133,30 +110,10 @@ namespace sqlitecrud
                      //adapte from Hello, World
            // REF :: https://github.com/dotnet/docs/blob/main/samples/snippets/standard/data/sqlite/HelloWorldSample/Program.cs
            
-            //important to Generate the Queries or nothin else will work !
-           BuildSqlQueries();
-
            RunNonParamNonQuery(SqlQueries["QCreateTableEmployees"]);
             
         }// main
-
-        static void UsingStatmenOpentDemo(bool runme)
-        {   if (!runme) return;
-            System.Console.WriteLine("We try and open ''xanthium2.db' which dne in SqliteOpenMode = 'ReadWrite'");
-            System.Console.WriteLine("This will throw an exception rather than force creation!'");
-
-            System.Console.WriteLine("Connection to 'xanthium2.db'...");
-            var Conn = GetMSLConnect("xanthium2.db",SqliteOpenMode.ReadWrite);
-            // using closes when statement ends
-
-
-            using (Conn)
-            {
-                Conn.Open();
-            }//using
-        }
-
-        static void RunNonParamNonQuery(string SqlQuery)
+   static void RunNonParamNonQuery(string SqlQuery)
         {
             //System.Console.WriteLine("Connection to 'xanthium.db'...");
             var Conn = GetMSLConnect("xanthium.db",SqliteOpenMode.ReadWrite);
@@ -182,54 +139,19 @@ namespace sqlitecrud
                     
                     if (FailOnSqlErrors) throw;
                 }
-                System.Console.WriteLine(" ... Success! Query was executed successfully.");
-                //System.Console.WriteLine(command.CommandText);
+                System.Console.WriteLine("Success! query executed:");
+                System.Console.WriteLine(command.CommandText);
             }//using Conn
         }//RunNonParamNonQuery
-
-/*
-
-        //Ref: 
-static void RunParamNonQuery(string SqlQuery)
-        {
-            //System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = GetMSLConnect("xanthium.db",SqliteOpenMode.ReadWrite);
-            System.Console.WriteLine("Running Query:");
-            System.Console.WriteLine(SqlQuery);
-            
-            // using closes when statement ends
-            using (Conn)
-            {
-                Conn.Open();
-                var command = new SqliteCommand(SqlQuery,Conn);
-                //create command
-                try{
-                    using (command)
-                    {
-                        command.ExecuteNonQuery();
-                    }//using command
-                }catch(Exception Ex)
-                {
-                    System.Console.WriteLine(@"/!\Faiilure! executing query:");
-                    System.Console.WriteLine(command.CommandText);
-                    System.Console.WriteLine(Ex);
-                    
-                    if (FailOnSqlErrors) throw;
-                }
-                System.Console.WriteLine(" ... Success! Query was executed successfully.");
-                //System.Console.WriteLine(command.CommandText);
-            }//using Conn
-        }//RunParamNonQuery
-        */
-        
-        static void CreateAndSeed()
-        {
-            
-        }
-
-        
-    }//class SqliteCRUDOps
+   }//class SqliteCRUDOps
     
     
     
 }//namespace
+```
+
+PS C:\Users\holmesa\vscode\raylib\step4-sqlite>  & 'c:\Users\holmesa\.vscode\extensions\ms-dotnettools.csharp-2.110.4-win32-x64\.debugger\x86_64\vsdbg.exe' '--interpreter=vscode' '--connection=7973e1c39d114bed9f3a681c53f35ee6' 
+Unhandled exception. System.Collections.Generic.KeyNotFoundException: The given key 'QCreateTableEmployees' was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at sqlitecrud.SqliteCRUDOps.Main(String[] Args) in C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\Program.cs:line 136
+PS C:\Users\holmesa\vscode\raylib\step4-sqlite> 

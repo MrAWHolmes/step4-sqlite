@@ -554,3 +554,10 @@ SqliteOpenMode OpenMode parameter:
         }//GetMSLConnect        
 ```
 
+Working with a Dictionary as a class attribute!
+REF: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=net-10.0
+
+Successefull Built and tested:
+
+SqlQueries Dictionary
+
