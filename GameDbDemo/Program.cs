@@ -9,8 +9,11 @@ using sqlitecrud.Models;
 
 namespace sqlitecrud
 {
+    
     class SqliteCRUDOps
     {
+
+
         static Dictionary<string,string> SqlQueries = new Dictionary<string,string>();
         static bool FailOnSqlErrors = false;
 
@@ -67,7 +70,7 @@ namespace sqlitecrud
             }
         }
 
-        public static SqliteConnection GetMSLConnect(string dbFileName,SqliteOpenMode OpenMode=SqliteOpenMode.ReadWriteCreate)
+        public static SqliteConnection GetConn(string dbFileName,SqliteOpenMode OpenMode=SqliteOpenMode.ReadWriteCreate)
         {
             //SqliteConnection Conn;
 
@@ -109,7 +112,7 @@ namespace sqlitecrud
         public static void Test_GetMSLConnect()
         {
             System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = GetMSLConnect("xanthium.db");
+            var Conn = GetConn("xanthium.db");
 
             System.Console.WriteLine($"Conn is {Conn}");
 
@@ -149,7 +152,7 @@ namespace sqlitecrud
             System.Console.WriteLine("This will throw an exception rather than force creation!'");
 
             System.Console.WriteLine("Connection to 'xanthium2.db'...");
-            var Conn = GetMSLConnect("xanthium2.db",SqliteOpenMode.ReadWrite);
+            var Conn = GetConn("xanthium2.db",SqliteOpenMode.ReadWrite);
             // using closes when statement ends
 
 
@@ -162,7 +165,7 @@ namespace sqlitecrud
         static void RunNonParamNonQuery(string SqlQuery)
         {
             //System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = GetMSLConnect("xanthium.db",SqliteOpenMode.ReadWrite);
+            var Conn = GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
             System.Console.WriteLine("Running Query:");
             System.Console.WriteLine(SqlQuery);
             
@@ -281,7 +284,7 @@ namespace sqlitecrud
             Parameters ??= Array.Empty<SqliteParameter>(); //Ensure null -> {}
             
             //System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = GetMSLConnect("xanthium.db",SqliteOpenMode.ReadWrite);
+            var Conn = GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
             System.Console.WriteLine("Running Query:");
             System.Console.WriteLine(SqlQuery);
             
@@ -297,6 +300,9 @@ namespace sqlitecrud
 
             System.Console.WriteLine($"sqlParamCount : {sqlParamCount}");
             System.Console.WriteLine($"Parameters.Count : {Parameters.Length}");
+
+            
+            
 
             if (sqlParamCount != Parameters.Length)
             {
@@ -319,6 +325,7 @@ namespace sqlitecrud
                             //map p.Value == null -> DBNull.Value
                             p.Value ??= DBNull.Value;                       
                             command.Parameters.Add(p);
+                            System.Console.WriteLine($"Parameter {p.ParameterName} bound to {p.Value}");
                         }                                                   // <-- end co-pilot code clip 1/01/2026
 
 
