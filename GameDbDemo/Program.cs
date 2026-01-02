@@ -61,6 +61,11 @@ namespace sqlitecrud
                                        WHERE Id = @Id;
                                 " );
 
+                SqlQueries.Add("QDataAllEmployees",
+                                     @"SELECT * FROM Employees;
+                                       
+                                " );
+
 
             }
             catch(Exception Ex)
@@ -105,7 +110,10 @@ namespace sqlitecrud
 
            SqliteTools.RunNonParamNonQuery(SqlQueries["QCreateTableEmployees"]);
 
-           TestInsertEmployeesQuery(); // Also test RunParamterNonQuery(); and the Models.ParamFactory Method!
+           // done
+           //TestInsertEmployeesQuery(); // Also test RunParamterNonQuery(); and the Models.ParamFactory Method!
+
+           testQDataAllEmployees();
             
         }// main
 
@@ -145,10 +153,29 @@ namespace sqlitecrud
             SqliteParameter[] p; //declare type wiothout initialisation!
 
             foreach (Employee e in employees){
-                p = ParamFactory.ToParameters(e);
+                p = ModelTools.ToParameters(e);
                 SqliteTools.RunParamNonQuery(SqlQueries["PQAddEmployee"],p);
             }//foreach
         }//TestInsertEmployeesQuery
+
+        static void testQDataAllEmployees()
+        {
+            var Data = SqliteTools.RunDataReaderParamQuery(SqlQueries["QDataAllEmployees"],Models.ModelTools.ProjectEmployee,[]);
+            System.Console.WriteLine(Data.Count);
+            System.Console.WriteLine();
+            System.Console.WriteLine("Data from Table Employees...");
+            Models.ModelTools.ShowListOfDictionaryData(Data);
+            System.Console.WriteLine();
+            System.Console.WriteLine("Press Enter to contine..");
+        }//testQDataAllEmployees()
+
+        /*
+        public static string MyDictionaryToJson(Dictionary<int, List<int>> dict) {
+            var entries = dict.Select(d =>
+            string.Format("\"{0}\": [{1}]", d.Key, string.Join(",", d.Value)));
+            return "{" + string.Join(",", entries) + "}";
+        }
+        */
         
     }//class SqliteCRUDOps
     

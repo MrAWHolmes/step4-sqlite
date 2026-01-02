@@ -1,3 +1,9 @@
+c:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.csproj.AssemblyReference.cache
+c:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.AssemblyInfoInputs.cache
+c:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.AssemblyInfo.cs
+c:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.csproj.CoreCompileInputs.cache
+c:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.sourcelink.json
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\bin\Debug\net10.0\GameDbDemo.exe
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\bin\Debug\net10.0\GameDbDemo.deps.json
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\bin\Debug\net10.0\GameDbDemo.runtimeconfig.json
@@ -43,12 +49,6 @@ C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\bin\Debug\net10.0\MrH.Con
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\bin\Debug\net10.0\MrH.SqliteTools.dll
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\bin\Debug\net10.0\MrH.Console.Tools.pdb
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\bin\Debug\net10.0\MrH.SqliteTools.pdb
-C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.csproj.AssemblyReference.cache
-C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.AssemblyInfoInputs.cache
-C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.AssemblyInfo.cs
-C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.csproj.CoreCompileInputs.cache
-C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.sourcelink.json
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.csproj.Up2Date
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\GameDbDemo.dll
 C:\Users\holmesa\vscode\raylib\step4-sqlite\GameDbDemo\obj\Debug\net10.0\refint\GameDbDemo.dll

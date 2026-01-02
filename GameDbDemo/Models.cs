@@ -4,6 +4,8 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using Microsoft.VisualBasic.FileIO;
 
 namespace sqlitecrud.Models{
 public record Employee( string Name, 
@@ -11,9 +13,9 @@ public record Employee( string Name,
                         string Email, 
                         decimal Salary);
 
-public static  class ParamFactory
+public static  class ModelTools
 {
-
+    /*
     public static  bool IsValidDate(string data,string paramString,string YearRange)
     {
             
@@ -26,9 +28,9 @@ public static  class ParamFactory
 
     }//IsValidEmail
 
+    */
 
-
-    private static bool traceOn = true;    
+    private static bool traceOn = false;    
     public static SqliteParameter[] ToParameters(Employee e)
     // ref : https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex?view=net-10.0 
     // Maps Employee Data onto Params, skip if null
@@ -127,6 +129,99 @@ public static  class ParamFactory
       return  P.ToArray();
 
     }//ToParameters
-}//class ParamFactory
 
-}//namespace
+
+    public static Dictionary<string,object> ProjectEmployee(SqliteDataReader r)
+        {
+            var recRow = new Dictionary<string,object>();
+
+            for (int i = 0; i < r.FieldCount;i++)
+            {
+                recRow[r.GetName(i)] = r.IsDBNull(i)?null:r.GetValue(i);
+            }//for
+
+            return recRow;
+        }
+
+    public static string fit(string s,int width)
+        {   
+            //System.Console.WriteLine($"s={s}");
+            if (string.IsNullOrEmpty(s)) s = " ";
+            //var w = int.Min(1,width);
+            var w = int.Min(s.Length,width);
+            //System.Console.WriteLine($"width={width}, w={w}");
+
+            var returnS = "";
+            int x = 0;
+
+            while (returnS.Length < w){
+                                   
+                    returnS += s[x];
+                    x++;
+                    //System.Console.WriteLine($"copy loop '{returnS}'");
+            
+            }//while
+            
+
+            while (returnS.Length < width)
+            {
+                returnS = " " + returnS;//pad from front
+                //System.Console.WriteLine($"'{returnS}'");
+            }
+
+            //System.Console.WriteLine($"'{returnS}'");
+            return returnS;
+
+        }//fit
+
+    public static void ShowListOfDictionaryData(List<Dictionary<string,object>> L )
+        {
+            if (L.Count == 0) {
+                System.Console.WriteLine("No Data");
+                return; //no data
+            }    
+            //grab field names of first Dictionary
+            List <string> Fields = new List<string>();
+
+            foreach(string key in L[0].Keys) Fields.Add(key);
+
+            var widths = new Dictionary<string,int>();
+            string s;
+            foreach(string field in Fields)  widths[field] = field.Length;
+               
+            //check data max width and update accordingly
+            
+            foreach (Dictionary<string,object> rec in L)
+            {
+                foreach(string f in Fields)
+                {
+                    //System.Console.WriteLine($"{f}:{rec[f]}");
+                    if(widths[f]<rec[f].ToString().Length) widths[f] = rec[f].ToString().Length;
+                
+                }
+            }
+
+            
+            //debug - widths printout
+            //foreach (string field in Fields) {System.Console.Write($"{fit(widths[field].ToString(),widths[field])}|\t");}
+            //System.Console.WriteLine();
+        
+
+            //display field names using the correct widths
+            foreach (string field in Fields) System.Console.Write($"{fit(field,widths[field])}|\t");//:{widths[field]}|");
+            System.Console.WriteLine();//NewLine
+
+            
+            //display the rows of data in the field list order
+            foreach (Dictionary<string,object> rec in L)
+            {
+                foreach(string field in Fields) System.Console.Write($"{fit(rec[field].ToString(),widths[field])}|\t");
+                System.Console.WriteLine();// newline
+            }//foreach rec
+
+            
+        }//ShowListOfDictionaryData
+
+}//class ModelTools
+
+}//namespace Models

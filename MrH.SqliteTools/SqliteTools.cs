@@ -2,6 +2,7 @@
 
 //using System.Data.SQLite; <-- Problematic with c# .. go figure!
 using System.Data;
+using System.Collections.Generic;
 using Microsoft.Data.Sqlite;     // ADD this
 using Microsoft.VisualBasic;
 using MrH.Console.Tools;
@@ -166,6 +167,83 @@ namespace MrH.SqliteTools
             }//using Conn
         }//RunParamNonQuery
         
+    //ref: https://www.sqlitetutorial.net/sqlite-csharp/select/
+    public static List<Dictionary<string,object>>  RunDataReaderParamQuery(
+                                                               string SqlQuery,
+                                                                Func<SqliteDataReader,Dictionary<string,object>> projector,
+                                                                params SqliteParameter[] Parameters
+                                                            )
+        {
+            bool Success = false;
+            //protect against exlicit null calue to Parameters
+            Parameters ??= Array.Empty<SqliteParameter>(); //Ensure null -> {}
+            
+            //System.Console.WriteLine("Connection to 'xanthium.db'...");
+            var Conn = GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
+            var results = new List<Dictionary<string,object>>();
+            
+            //sanity check - Params.Count == "@" count in SqlQuery String
+            int sqlParamCount = 0;
+            for (int i = 0; i < SqlQuery.Length; i++)
+            {
+                if (SqlQuery[i]=='@') sqlParamCount++;
+            }
+
+            System.Console.WriteLine($"sqlParamCount : {sqlParamCount}");
+            System.Console.WriteLine($"Parameters.Count : {Parameters.Length}");
+
+                        
+            if (sqlParamCount != Parameters.Length)
+            {
+                System.Console.WriteLine(@"/!\ Warning possible parameter count mismatch.");
+            }
+
+
+            using (Conn)
+            {
+                Conn.Open();
+                var command = new SqliteCommand(SqlQuery,Conn); //Assume Parameters are @ prefixed
+                
+                //create command.ExecuteReader() 
+                try{
+                    using (command)
+                    {   // Bind the paramters!
+                        // We assume validation is undertaken by the caller
+                        foreach(var p in Parameters)                        // <-- start co-pilot code clip 1/01/2026
+                        {                           
+                            //map p.Value == null -> DBNull.Value
+                            p.Value ??= DBNull.Value;                       
+                            command.Parameters.Add(p);
+                            System.Console.WriteLine($"Parameter {p.ParameterName} bound to {p.Value}");
+                        }                                                   // <-- end co-pilot code clip 1/01/2026
+
+
+                        using var reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            results.Add(projector(reader));
+                        }//while
+                        Success = true;
+
+                        
+                        }//using command
+                }catch(Exception Ex)
+                {
+                    System.Console.WriteLine(@"/!\Faiilure! executing query:");
+                    System.Console.WriteLine(command.CommandText);
+                    System.Console.WriteLine(Ex);
+                    
+                    if (FailOnSqlErrors) throw;
+                }
+
+                
+                
+                if (Success) System.Console.WriteLine(" ... Success! Query was executed successfully.");
+                return results;
+                //System.Console.WriteLine(command.CommandText);
+            }//using Conn
+            
+        }//RunDataReaderParamQuery   
 
 
     }//class SqliteTools
