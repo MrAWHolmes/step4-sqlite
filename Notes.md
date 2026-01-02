@@ -561,3 +561,361 @@ Successefull Built and tested:
 
 SqlQueries Dictionary
 
+Successfully implmented BuildSqlQueries()
+
+```cs
+
+namespace sqlitecrud
+{
+    class SqliteCRUDOps
+    {
+        static Dictionary<string,string> SqlQueries = new Dictionary<string,string>();
+        static bool FailOnSqlErrors = true;
+
+        public static void BuildSqlQueries(){
+            //SqlQueries = new Dictionary<string,string>();
+
+            try
+            {
+                
+                //REF : https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/types
+                //ref : https://www.sqlitetutorial.net/sqlite-create-table/
+                SqlQueries.Add("QCreateTableEmployees",
+                                     @"CREATE TABLE IF NOT EXISTS Employees(
+                                      Id INTEGER PRIMARY KEY,
+                                      Name  TEXT NOT NULL,
+                                      DOB   TEXT,
+                                      Email TEXT UNIQUE NOT NULL,
+                                      Salary REAL
+                                     );"
+                                    );
+
+                //ref: https://www.sqlitetutorial.net/sqlite-csharp/insert/
+                SqlQueries.Add("PQAddEmployee",
+                                     @"INSERT INTO Employees(Name,DOB,Email,Salary) 
+                                      VALUES ($Name,$DOB,$Email,$Salary);"
+                                     
+                                    );
+
+                //ref: https://www.sqlitetutorial.net/sqlite-csharp/insert/
+                SqlQueries.Add("PQUpdateEmployeeEmail",
+                                     @"UPDATE Employees
+                                       SET Email = $NewEmail
+                                       WHERE Id = $Id;
+                                " );
+                SqlQueries.Add("PQUpdateEmployeeSalary",
+                                     @"UPDATE Employees
+                                       SET Salary = $NewSalary
+                                       WHERE Id = $Id;
+                                " );
+
+                //ref: https://www.sqlitetutorial.net/sqlite-delete/
+                SqlQueries.Add("PQDeleteEmployee",
+                                     @"DELETE FROM  Employees
+                                       WHERE Id = $Id;
+                                " );
+
+
+            }
+            catch(Exception Ex)
+            {
+                System.Console.WriteLine("Caller BuildSqlQueries()");
+                System.Console.WriteLine($"Dictionary Key Exception!");
+                System.Console.WriteLine(Ex);
+            }
+        }
+
+       : : :
+```
+Towards adapting 
+```cs
+    static void RunNonParamNonQuery(string SqlQuery)
+```
+to
+```cs
+ static void RunParamNonQuery(string SqlQuery,params SqliteParameter[] parameters)
+```
+Co-Pilot: Explaining 'params' keyword
+What does params do in params SqliteParameter[] parameters?
+params is a C# keyword that allows a method to accept a variable number of arguments as if they were a comma‑separated list at the call site. Under the hood, the parameter is still an array (SqliteParameter[]); params simply gives you syntactic sugar so callers don’t have to explicitly create an array.
+
+Type (what it is): SqliteParameter[] named parameters
+Effect of params: Callers can pass zero, one, or many SqliteParameter values without wrapping them in an array.
+
+Why is it useful here?
+When building SQL commands, it’s convenient to pass any number of parameters inline:
+```cs
+
+RunParamNonQuery(
+    "INSERT INTO files(name, content) VALUES(@name, @content)",
+    new SqliteParameter("@name", "readme.txt"),
+    new SqliteParameter("@content", File.ReadAllBytes("readme.txt"))
+);
+
+```
+Without params, you would have to write:
+```cs
+
+RunParamNonQuery(
+    "INSERT INTO files(name, content) VALUES(@name, @content)",
+    new SqliteParameter[]
+    {
+        new SqliteParameter("@name", "readme.txt"),
+        new SqliteParameter("@content", File.ReadAllBytes("readme.txt"))
+    }
+);
+
+```
+Both compile to the same thing. params just makes the call site more ergonomic.
+
+Key rules and behaviors of params
+
+1) Must be the last parameter in the method signature.
+2) Only one params parameter per method.
+3) You can’t have multiple params parameters.
+
+
+Caller can pass:
+
+i)No arguments (the array becomes empty):
+```cs
+ParamNonQuery("DELETE FROM t WHERE 1=1"); // parameters.Length == 0
+```
+ii) A single argument:
+```cs
+ RunParamNonQuery("DELETE FROM t WHERE id=@id", new SqliteParameter("@id", 42));
+```
+iii) Many arguments (comma‑separated):
+```cs
+
+RunParamNonQuery("UPDATE t SET a=@a, b=@b WHERE id=@id",
+    new SqliteParameter("@a", 1),
+    new SqliteParameter("@b", 2),
+    new SqliteParameter("@id", 99));
+
+```
+iv) An explicit array (if they prefer):
+```cs
+
+var ps = new[] { new SqliteParameter("@x", 10), new SqliteParameter("@y", 20) };
+RunParamNonQuery("UPDATE t SET x=@x, y=@y", ps);
+
+```
+v) Null handling: If the caller passes null as the entire array, the runtime will pass parameters == null.
+If they omit arguments, you get an empty array. In your method, you can defensively do:
+```cs
+    parameters ??= Array.Empty<SqliteParameter>();
+```
+What it does: If the left-hand side is null, assign the right-hand side to it; otherwise do nothing.
+In words: “If parameters is null, set it to Array.Empty<SqliteParameter>(); else leave parameters unchanged.”
+Introduced: C# 8.0.
+
+Herewith co-pilot conversation and final code 01/01/2026
+//AI Ref: Copilot  static void RunParamNonQuery(string SqlQuery,params SqliteParameter[] Parameters)
+        /*
+        Prompt: Im trying to abstract this c# ADO SQlite example https://www.sqlitetutorial.net/sqlite-csharp/insert/I 
+        // I have coded this method for Runing NonParam Queries:  static void RunNonParamNonQuery(string SqlQuery)
+
+        Code to self coded RunNonParamNonQuery(string SqlQuery) uploaded
+
+         // that will in-order traverse the Params which will be a container of possible mixed types.
+         // In python I could use a list.What data type will do this role in c#.
+         // Please explain and justify the data type give examples of how to declare, 
+         // initialise and traverse the Data Type.
+         // 
+         // I have a working knowledge of c# Arrays and Lists of primitive type.
+
+
+         3 Code options were generated - I decided on Option C
+
+         Option C: params SqliteParameter[] (maximum control)
+        Pros
+
+            You can set DbType, size, precision/scale, and even SqliteType explicitly.
+            Best when schema and types matter (e.g., blobs, decimals).
+
+        Cons
+
+            Slightly heavier to write.
+
+        code generated 
+
+```cs
+
+static void RunParamNonQuery(string sql, params SqliteParameter[] parameters)
+{
+    using var conn = GetMSLConnect("xanthium.db", SqliteOpenMode.ReadWrite);
+    Console.WriteLine("Running Query:");
+    Console.WriteLine(sql);
+
+    try
+    {
+        conn.Open();
+        using var cmd = new SqliteCommand(sql, conn);
+
+        foreach (var p in parameters)                       <--
+        {                                                   <--
+            // Ensure null => DBNull                        <--
+            if (p.Value is null) p.Value = DBNull.Value;    <--
+            cmd.Parameters.Add(p);                          <--
+        }                                                   <--
+
+        cmd.ExecuteNonQuery();
+        Console.WriteLine("Success! query executed:");
+        Console.WriteLine(cmd.CommandText);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(@"/!\ Failure executing query:");
+        Console.WriteLine(sql);
+        Console.WriteLine(ex);
+        if (FailOnSqlErrors) throw;
+    }
+}
+
+
+```
+        Code Utilised show with <--
+
+        References::
+
+        SqliteParameter API and purpose: Microsoft Learn API Browser. [learn.microsoft.com]
+        https://learn.microsoft.com/en-us/dotnet/api/microsoft.data.sqlite.sqliteparameter?view=msdata-sqlite-9.0.0
+
+        Parameter usage, prefixes, type control: Microsoft Learn – Parameters. [learn.microsoft.com]
+        https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/parameters 
+
+        ADO.NET usage pattern with commands/parameters: Microsoft Learn – Overview. [learn.microsoft.com]
+        https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/?tabs=net-cli 
+
+        ExecuteNonQuery behavior: Microsoft Learn – API. [learn.microsoft.com]
+        https://learn.microsoft.com/en-us/dotnet/api/microsoft.data.sqlite.sqlitecommand.executenonquery?view=msdata-sqlite-9.0.0
+
+        params semantics: C# language reference. [learn.microsoft.com]
+        https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters 
+
+        */
+
+My final code for this Method : static void RunParamNonQuery(string SqlQuery,params SqliteParameter[] Parameters)
+```cs
+static void RunParamNonQuery(string SqlQuery,params SqliteParameter[] Parameters)
+static void RunParamNonQuery(string SqlQuery,params SqliteParameter[] Parameters)
+        //co-pilot : params params SqliteParameter[] Parameters) <-- parameter
+        {
+            //protect against exlicit null calue to Parameters
+            Parameters ??= Array.Empty<SqliteParameter>(); //Ensure null -> {}
+            
+            //System.Console.WriteLine("Connection to 'xanthium.db'...");
+            var Conn = GetMSLConnect("xanthium.db",SqliteOpenMode.ReadWrite);
+            System.Console.WriteLine("Running Query:");
+            System.Console.WriteLine(SqlQuery);
+            
+            // using closes when statement ends
+
+            //sanity check - Params.Count == "@" count in SqlQuery String
+
+            int sqlParamCount = 0;
+            for (int i = 0; i < SqlQuery.Length; i++)
+            {
+                if (SqlQuery[i]=='@') sqlParamCount++;
+            }
+
+            System.Console.WriteLine($"sqlParamCount : {sqlParamCount}");
+            System.Console.WriteLine($"Parameters.Count : {Parameters.Length}");
+
+            if (sqlParamCount != Parameters.Length)
+            {
+                System.Console.WriteLine(@"/!\ Warning possible parameter count mismatch.");
+            }
+
+
+
+            using (Conn)
+            {
+                Conn.Open();
+                var command = new SqliteCommand(SqlQuery,Conn); //Assume Parameters are @ prefixed
+                //create command
+                try{
+                    using (command)
+                    {   // Bind the paramters!
+                        // We assume validation is undertaken by the caller
+                        foreach(var p in Parameters)                        // <-- start co-pilot code clip 1/01/2026
+                        {                           
+                            //map p.Value == null -> DBNull.Value
+                            p.Value ??= DBNull.Value;                       
+                            command.Parameters.Add(p);
+                        }                                                   // <-- end co-pilot code clip 1/01/2026
+
+
+                        command.ExecuteNonQuery();
+                    }//using command
+                }catch(Exception Ex)
+                {
+                    System.Console.WriteLine(@"/!\Faiilure! executing query:");
+                    System.Console.WriteLine(command.CommandText);
+                    System.Console.WriteLine(Ex);
+                    
+                    if (FailOnSqlErrors) throw;
+                }
+                System.Console.WriteLine(" ... Success! Query was executed successfully.");
+                //System.Console.WriteLine(command.CommandText);
+            }//using Conn
+        }//RunParamNonQuery
+```
+
+Testing with insert Employee query:
+
+Stuck - CO-Pilot Prompt
+```quote
+Im trying to create an array of employees, that has same field names as a database table, which can be traversed/iterated over and passed to an Insert Into SQL query which will be called using 
+
+RunParamNonQuery(SqlQuey["PQAddEmployee"],record);
+
+How do I construct a suitable data structure for this. record must essentially be an array of 
+ SqliteParameter s
+
+```
+
+1) Model matching your table
+```cs
+
+
+public record Employee(
+    string Name,
+    string? DobIso,     // store as ISO string "YYYY-MM-DD" or null
+    string Email,
+    decimal Salary
+);
+
+```
+I Kept DOB instead of DobIso
+
+I added this to the file Models.cs with a namespace of 
+
+2) Mapper: Employee → SqliteParameter[]
+Make sure the parameter names match those in your query text. From your earlier dictionary, the insert uses $Name, $DOB, $Email, $Salary.
+```cs
+
+using Microsoft.Data.Sqlite;
+using System;
+using System.Data;
+
+public static class EmployeeParamFactory
+{
+    public static SqliteParameter[] ToParameters(Employee e)
+    {
+        // Use `$` to match your SQL, or switch to `@` everywhere if you prefer.
+        var pName   = new SqliteParameter("$Name",  e.Name);
+        var pDob    = new SqliteParameter("$DOB",   (object?)e.DobIso ?? DBNull.Value);
+        var pEmail  = new SqliteParameter("$Email", e.Email);
+
+        // Salary mapping: set DbType explicitly if you want decimal semantics;
+        // Microsoft.Data.Sqlite typically maps numeric to REAL/INTEGER.
+        var pSalary = new SqliteParameter("$Salary", e.Salary) { DbType = DbType.Decimal };
+
+        return new[] { pName, pDob, pEmail, pSalary };
+    }
+}
+
+
+```
