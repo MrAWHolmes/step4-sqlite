@@ -958,3 +958,14 @@ using MrH.SqliteTools; // <-- New Namespace :)
 ```
 
 and change calls, Eg GetCon() --> MrH
+
+I have run ouut opf time!
+
+NOTED:: REsume here!!!!!!
+
+Decouple Models.EmployeeToParameters()
+from the very strict validation enforced to allow for 'easier' parameter substitution
+
+Presently the Email validation is dropping Email as a parameter
+
+It might still work with %@example.com% ??

@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using Microsoft.VisualBasic.FileIO;
 
 namespace sqlitecrud.Models{
-public record Employee( string Name, 
+public record Employee( string? Name, 
                         string? DOB, 
-                        string Email, 
-                        decimal Salary);
+                        string? Email, 
+                        decimal? Salary);
 
 public static  class ModelTools
 {
@@ -31,7 +31,7 @@ public static  class ModelTools
     */
 
     private static bool traceOn = false;    
-    public static SqliteParameter[] ToParameters(Employee e)
+    public static SqliteParameter[] EmployeeToParameters(Employee e)
     // ref : https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex?view=net-10.0 
     // Maps Employee Data onto Params, skip if null
     {
@@ -114,7 +114,7 @@ public static  class ModelTools
         */
 
         //Use negative values as a skip value
-        if (e.Salary >= 0.0m) {
+        if (e.Salary!=null && e.Salary >= 0.0m) {
             P.Add(new SqliteParameter("@Salary",e.Salary){ DbType = DbType.Decimal });
             if (traceOn) System.Console.WriteLine($"Parameter @Salary bound to '{e.Salary}'");
             }

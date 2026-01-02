@@ -67,6 +67,12 @@ namespace sqlitecrud
                                 " );
 
 
+                SqlQueries.Add("QDataEmailLike",
+                                     @"SELECT * FROM Employees
+                                     WHERE Email LIKE @email
+                                       
+                                " );
+
             }
             catch(Exception Ex)
             {
@@ -113,7 +119,10 @@ namespace sqlitecrud
            // done
            //TestInsertEmployeesQuery(); // Also test RunParamterNonQuery(); and the Models.ParamFactory Method!
 
-           testQDataAllEmployees();
+           //testQDataAllEmployees();
+
+           TestQDataEmailLike("%example%");
+
             
         }// main
 
@@ -153,7 +162,7 @@ namespace sqlitecrud
             SqliteParameter[] p; //declare type wiothout initialisation!
 
             foreach (Employee e in employees){
-                p = ModelTools.ToParameters(e);
+                p = ModelTools.EmployeeToParameters(e);
                 SqliteTools.RunParamNonQuery(SqlQueries["PQAddEmployee"],p);
             }//foreach
         }//TestInsertEmployeesQuery
@@ -169,14 +178,25 @@ namespace sqlitecrud
             System.Console.WriteLine("Press Enter to contine..");
         }//testQDataAllEmployees()
 
-        /*
-        public static string MyDictionaryToJson(Dictionary<int, List<int>> dict) {
-            var entries = dict.Select(d =>
-            string.Format("\"{0}\": [{1}]", d.Key, string.Join(",", d.Value)));
-            return "{" + string.Join(",", entries) + "}";
-        }
-        */
-        
+
+        public static void TestQDataEmailLike(string emailParam)
+        {
+
+             var p = ModelTools.EmployeeToParameters(new Employee(Email:emailParam,Name:null,Salary:null,DOB:null));
+             System.Console.WriteLine(p.GetType());
+             
+             if (p.Length > 0)  System.Console.WriteLine($"{p[0].ParameterName} is ''{p[0].Value}''");
+
+            var Data = SqliteTools.RunDataReaderParamQuery(SqlQueries["QDataEmailLike"],Models.ModelTools.ProjectEmployee,p);
+            System.Console.WriteLine(Data.Count);
+            System.Console.WriteLine();
+            System.Console.WriteLine($"Data from Table Employees...by running TestQDataEmailLike({emailParam})");
+            Models.ModelTools.ShowListOfDictionaryData(Data);
+            System.Console.WriteLine();
+            System.Console.WriteLine("Press Enter to contine..");
+        }//TestEmailLike()
+
+       
     }//class SqliteCRUDOps
     
     
