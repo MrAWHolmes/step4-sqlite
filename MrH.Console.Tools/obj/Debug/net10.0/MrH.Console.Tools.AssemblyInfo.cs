@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MrH.Console.Tools")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3581c22cf2e8d2c36e28813ae621b4f3cc3ba74")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+93bf86cbfc0aa40649b9fba152831f9fa9b15ac9")]
 [assembly: System.Reflection.AssemblyProductAttribute("MrH.Console.Tools")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MrH.Console.Tools")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

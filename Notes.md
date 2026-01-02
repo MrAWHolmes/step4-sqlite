@@ -919,3 +919,42 @@ public static class EmployeeParamFactory
 
 
 ```
+
+REFACTORING ReUSABLE Code into a LIBRARY:
+
+1) Create a NEW Class PROJECT with a FOLDER Eg) .\MrH.SqlitTools
+1b) Setup Nmaespace Eg) Mr.SqliteTools
+1c) Add nugets to 
+```xml
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.1" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2" />
+  </ItemGroup>
+```
+
+1d) Add MrH.Contools as a PROJECT REFERENCE
+This adds
+```XML
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\MrH.Console.Tools\MrH.Console.Tools.csproj" />
+  </ItemGroup>
+
+```
+Ceate public stats calss in .\MrH.SqliteTools\MrH.SqliteTools\SqliteTools.cs
+
+
+In App add the name space "MrH.SqliteTools"
+```cs
+//using System.Data.SQLite; <-- Problematic with c# .. go figure!
+using System.Data;
+using Microsoft.Data.Sqlite;     // ADD this
+using Microsoft.VisualBasic;
+using MrH.Console.Tools;
+using sqlitecrud.Models;
+using MrH.SqliteTools; // <-- New Namespace :)
+
+
+```
+
+and change calls, Eg GetCon() --> MrH

@@ -10,6 +10,7 @@
         "dependencies": {
           "Microsoft.Data.Sqlite": "10.0.1",
           "MrH.Console.Tools": "1.0.0",
+          "MrH.SqliteTools": "1.0.0",
           "SQLitePCLRaw.bundle_e_sqlite3": "3.0.2"
         },
         "runtime": {
@@ -236,6 +237,19 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "MrH.SqliteTools/1.0.0": {
+        "dependencies": {
+          "Microsoft.Data.Sqlite": "10.0.1",
+          "MrH.Console.Tools": "1.0.0",
+          "SQLitePCLRaw.bundle_e_sqlite3": "3.0.2"
+        },
+        "runtime": {
+          "MrH.SqliteTools.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -295,6 +309,11 @@
       "hashPath": "sqlitepclraw.provider.e_sqlite3.3.0.2.nupkg.sha512"
     },
     "MrH.Console.Tools/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MrH.SqliteTools/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

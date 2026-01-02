@@ -1,0 +1,16 @@
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\bin\Debug\net10.0\MrH.SqliteTools.deps.json
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\bin\Debug\net10.0\MrH.SqliteTools.dll
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\bin\Debug\net10.0\MrH.SqliteTools.pdb
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\bin\Debug\net10.0\MrH.Console.Tools.dll
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\bin\Debug\net10.0\MrH.Console.Tools.pdb
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.SqliteTools.csproj.AssemblyReference.cache
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.SqliteTools.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.SqliteTools.AssemblyInfoInputs.cache
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.SqliteTools.AssemblyInfo.cs
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.SqliteTools.csproj.CoreCompileInputs.cache
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.SqliteTools.sourcelink.json
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.Sqli.1E309216.Up2Date
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.SqliteTools.dll
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\refint\MrH.SqliteTools.dll
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\MrH.SqliteTools.pdb
+c:\Users\holmesa\vscode\raylib\step4-sqlite\MrH.SqliteTools\obj\Debug\net10.0\ref\MrH.SqliteTools.dll

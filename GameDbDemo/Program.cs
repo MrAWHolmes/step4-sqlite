@@ -6,6 +6,7 @@ using Microsoft.Data.Sqlite;     // ADD this
 using Microsoft.VisualBasic;
 using MrH.Console.Tools;
 using sqlitecrud.Models;
+using MrH.SqliteTools;
 
 namespace sqlitecrud
 {
@@ -68,51 +69,13 @@ namespace sqlitecrud
                 System.Console.WriteLine($"Dictionary Key Exception!");
                 System.Console.WriteLine(Ex);
             }
-        }
+        }//GetConn
 
-        public static SqliteConnection GetConn(string dbFileName,SqliteOpenMode OpenMode=SqliteOpenMode.ReadWriteCreate)
-        {
-            //SqliteConnection Conn;
-
-            string filePath = MrH.Console.Tools.Contools.filePath("data",dbFileName );
-            System.Console.WriteLine($"Attempting to use database = {filePath}");
-            
-            
-            var csb = new SqliteConnectionStringBuilder()
-            {
-                DataSource = filePath,
-                ForeignKeys = true,             // enforces FK constraints
-                Mode = OpenMode
-                
-            };
-
-            string ConnectionString = csb.ToString();
-
-            var Conn  = new SqliteConnection(ConnectionString);
-                                                  
-            //Open + Close creates the file
-            try{
-                Conn.Open();
-                Conn.Close(); 
-                System.Console.WriteLine($"Success! USing the databse = {filePath}");
-                return Conn;
-            }//try
-            catch (SqliteException ex)
-            {
-                
-                Console.WriteLine("SQLite error while opening the existing database:");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("Check that the file isn't corrupted and the connection string is correct.");
-
-                throw;
-
-            }//catch
-        }//GetMSLConnect        
-
-        public static void Test_GetMSLConnect()
+        
+        public static void Test_GetConn()
         {
             System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = GetConn("xanthium.db");
+            var Conn = SqliteTools.GetConn("xanthium.db");
 
             System.Console.WriteLine($"Conn is {Conn}");
 
@@ -152,7 +115,7 @@ namespace sqlitecrud
             System.Console.WriteLine("This will throw an exception rather than force creation!'");
 
             System.Console.WriteLine("Connection to 'xanthium2.db'...");
-            var Conn = GetConn("xanthium2.db",SqliteOpenMode.ReadWrite);
+            var Conn = SqliteTools.GetConn("xanthium2.db",SqliteOpenMode.ReadWrite);
             // using closes when statement ends
 
 
@@ -165,7 +128,7 @@ namespace sqlitecrud
         static void RunNonParamNonQuery(string SqlQuery)
         {
             //System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
+            var Conn = SqliteTools.GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
             System.Console.WriteLine("Running Query:");
             System.Console.WriteLine(SqlQuery);
             
@@ -284,7 +247,7 @@ namespace sqlitecrud
             Parameters ??= Array.Empty<SqliteParameter>(); //Ensure null -> {}
             
             //System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
+            var Conn = SqliteTools.GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
             System.Console.WriteLine("Running Query:");
             System.Console.WriteLine(SqlQuery);
             

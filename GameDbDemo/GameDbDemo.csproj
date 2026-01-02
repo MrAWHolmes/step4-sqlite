@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MrH.Console.Tools\MrH.Console.Tools.csproj" />
+    <ProjectReference Include="..\MrH.SqliteTools\MrH.SqliteTools.csproj" />
   </ItemGroup>
 
   <ItemGroup>

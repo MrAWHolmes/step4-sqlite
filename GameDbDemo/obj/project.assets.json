@@ -212,12 +212,27 @@
       },
       "MrH.Console.Tools/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
+        "framework": ".NETCoreApp,Version=v10.0",
         "compile": {
           "bin/placeholder/MrH.Console.Tools.dll": {}
         },
         "runtime": {
           "bin/placeholder/MrH.Console.Tools.dll": {}
+        }
+      },
+      "MrH.SqliteTools/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.Data.Sqlite": "10.0.1",
+          "MrH.Console.Tools": "1.0.0",
+          "SQLitePCLRaw.bundle_e_sqlite3": "3.0.2"
+        },
+        "compile": {
+          "bin/placeholder/MrH.SqliteTools.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MrH.SqliteTools.dll": {}
         }
       }
     }
@@ -368,12 +383,18 @@
       "type": "project",
       "path": "../MrH.Console.Tools/MrH.Console.Tools.csproj",
       "msbuildProject": "../MrH.Console.Tools/MrH.Console.Tools.csproj"
+    },
+    "MrH.SqliteTools/1.0.0": {
+      "type": "project",
+      "path": "../MrH.SqliteTools/MrH.SqliteTools.csproj",
+      "msbuildProject": "../MrH.SqliteTools/MrH.SqliteTools.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
       "Microsoft.Data.Sqlite >= 10.0.1",
       "MrH.Console.Tools >= 1.0.0",
+      "MrH.SqliteTools >= 1.0.0",
       "SQLitePCLRaw.bundle_e_sqlite3 >= 3.0.2"
     ]
   },
@@ -412,6 +433,9 @@
           "projectReferences": {
             "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\MrH.Console.Tools\\MrH.Console.Tools.csproj": {
               "projectPath": "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\MrH.Console.Tools\\MrH.Console.Tools.csproj"
+            },
+            "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\MrH.SqliteTools\\MrH.SqliteTools.csproj": {
+              "projectPath": "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\MrH.SqliteTools\\MrH.SqliteTools.csproj"
             }
           }
         }
