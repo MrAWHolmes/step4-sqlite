@@ -16,7 +16,7 @@ namespace sqlitecrud
 
 
         static Dictionary<string,string> SqlQueries = new Dictionary<string,string>();
-        static bool FailOnSqlErrors = false;
+        //static bool FailOnSqlErrors = false;
 
         public static void BuildSqlQueries(){
             //SqlQueries = new Dictionary<string,string>();
@@ -103,7 +103,7 @@ namespace sqlitecrud
             //important to Generate the Queries or nothin else will work !
            BuildSqlQueries();
 
-           RunNonParamNonQuery(SqlQueries["QCreateTableEmployees"]);
+           SqliteTools.RunNonParamNonQuery(SqlQueries["QCreateTableEmployees"]);
 
            TestInsertEmployeesQuery(); // Also test RunParamterNonQuery(); and the Models.ParamFactory Method!
             
@@ -125,190 +125,6 @@ namespace sqlitecrud
             }//using
         }
 
-        static void RunNonParamNonQuery(string SqlQuery)
-        {
-            //System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = SqliteTools.GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
-            System.Console.WriteLine("Running Query:");
-            System.Console.WriteLine(SqlQuery);
-            
-            // using closes when statement ends
-            using (Conn)
-            {
-                Conn.Open();
-                var command = new SqliteCommand(SqlQuery,Conn);
-                //create command
-                try{
-                    using (command)
-                    {
-                        command.ExecuteNonQuery();
-                    }//using command
-                }catch(Exception Ex)
-                {
-                    System.Console.WriteLine(@"/!\Faiilure! executing query:");
-                    System.Console.WriteLine(command.CommandText);
-                    System.Console.WriteLine(Ex);
-                    
-                    if (FailOnSqlErrors) throw;
-                }
-                System.Console.WriteLine(" ... Success! Query was executed successfully.");
-                //System.Console.WriteLine(command.CommandText);
-            }//using Conn
-        }//RunNonParamNonQuery
-
-
-
-        //AI Ref: Copilot  static void RunParamNonQuery(string SqlQuery,params SqliteParameter[] Parameters)
-        /*
-        Prompt: Im trying to abstract this c# ADO SQlite example https://www.sqlitetutorial.net/sqlite-csharp/insert/I 
-        // I have coded this method for Runing NonParam Queries:  static void RunNonParamNonQuery(string SqlQuery)
-
-        Code to self coded RunNonParamNonQuery(string SqlQuery) uploaded
-
-         // that will in-order traverse the Params which will be a container of possible mixed types.
-         // In python I could use a list.What data type will do this role in c#.
-         // Please explain and justify the data type give examples of how to declare, 
-         // initialise and traverse the Data Type.
-         // 
-         // I have a working knowledge of c# Arrays and Lists of primitive type.
-
-
-         3 Code options were generated - I decided on Option C
-
-         Option C: params SqliteParameter[] (maximum control)
-        Pros
-
-            You can set DbType, size, precision/scale, and even SqliteType explicitly.
-            Best when schema and types matter (e.g., blobs, decimals).
-
-        Cons
-
-            Slightly heavier to write.
-
-        code generated ```
-
-                static void RunParamNonQuery(string sql, params SqliteParameter[] parameters)
-                {
-                    using var conn = GetMSLConnect("xanthium.db", SqliteOpenMode.ReadWrite);
-                    Console.WriteLine("Running Query:");
-                    Console.WriteLine(sql);
-
-                    try
-                    {
-                        conn.Open();
-                        using var cmd = new SqliteCommand(sql, conn);
-
-                        foreach (var p in parameters)                       <--
-                        {                                                   <--
-                            // Ensure null => DBNull                        <--
-                            if (p.Value is null) p.Value = DBNull.Value;    <--
-                            cmd.Parameters.Add(p);                          <--
-                        }                                                   <--
-
-                        cmd.ExecuteNonQuery();
-                        Console.WriteLine("Success! query executed:");
-                        Console.WriteLine(cmd.CommandText);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(@"/!\ Failure executing query:");
-                        Console.WriteLine(sql);
-                        Console.WriteLine(ex);
-                        if (FailOnSqlErrors) throw;
-                    }
-                }
-
-
-        ````
-        Code Utilised show with <--
-
-        References::
-
-        SqliteParameter API and purpose: Microsoft Learn API Browser. [learn.microsoft.com]
-        https://learn.microsoft.com/en-us/dotnet/api/microsoft.data.sqlite.sqliteparameter?view=msdata-sqlite-9.0.0
-
-        Parameter usage, prefixes, type control: Microsoft Learn – Parameters. [learn.microsoft.com]
-        https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/parameters 
-
-        ADO.NET usage pattern with commands/parameters: Microsoft Learn – Overview. [learn.microsoft.com]
-        https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/?tabs=net-cli 
-
-        ExecuteNonQuery behavior: Microsoft Learn – API. [learn.microsoft.com]
-        https://learn.microsoft.com/en-us/dotnet/api/microsoft.data.sqlite.sqlitecommand.executenonquery?view=msdata-sqlite-9.0.0
-
-        params semantics: C# language reference. [learn.microsoft.com]
-        https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters 
-
-        */
-    static void RunParamNonQuery(string SqlQuery,params SqliteParameter[] Parameters)
-        //co-pilot : params params SqliteParameter[] Parameters) <-- parameter
-        {   bool Success = false;
-            //protect against exlicit null calue to Parameters
-            Parameters ??= Array.Empty<SqliteParameter>(); //Ensure null -> {}
-            
-            //System.Console.WriteLine("Connection to 'xanthium.db'...");
-            var Conn = SqliteTools.GetConn("xanthium.db",SqliteOpenMode.ReadWrite);
-            System.Console.WriteLine("Running Query:");
-            System.Console.WriteLine(SqlQuery);
-            
-            // using closes when statement ends
-
-            //sanity check - Params.Count == "@" count in SqlQuery String
-
-            int sqlParamCount = 0;
-            for (int i = 0; i < SqlQuery.Length; i++)
-            {
-                if (SqlQuery[i]=='@') sqlParamCount++;
-            }
-
-            System.Console.WriteLine($"sqlParamCount : {sqlParamCount}");
-            System.Console.WriteLine($"Parameters.Count : {Parameters.Length}");
-
-            
-            
-
-            if (sqlParamCount != Parameters.Length)
-            {
-                System.Console.WriteLine(@"/!\ Warning possible parameter count mismatch.");
-            }
-
-
-
-            using (Conn)
-            {
-                Conn.Open();
-                var command = new SqliteCommand(SqlQuery,Conn); //Assume Parameters are @ prefixed
-                //create command
-                try{
-                    using (command)
-                    {   // Bind the paramters!
-                        // We assume validation is undertaken by the caller
-                        foreach(var p in Parameters)                        // <-- start co-pilot code clip 1/01/2026
-                        {                           
-                            //map p.Value == null -> DBNull.Value
-                            p.Value ??= DBNull.Value;                       
-                            command.Parameters.Add(p);
-                            System.Console.WriteLine($"Parameter {p.ParameterName} bound to {p.Value}");
-                        }                                                   // <-- end co-pilot code clip 1/01/2026
-
-
-                        command.ExecuteNonQuery();
-                        Success = true;
-                    }//using command
-                }catch(Exception Ex)
-                {
-                    System.Console.WriteLine(@"/!\Faiilure! executing query:");
-                    System.Console.WriteLine(command.CommandText);
-                    System.Console.WriteLine(Ex);
-                    
-                    if (FailOnSqlErrors) throw;
-                }
-                
-                if (Success) System.Console.WriteLine(" ... Success! Query was executed successfully.");
-                
-                //System.Console.WriteLine(command.CommandText);
-            }//using Conn
-        }//RunParamNonQuery
         
 
         static void TestInsertEmployeesQuery()
@@ -330,7 +146,7 @@ namespace sqlitecrud
 
             foreach (Employee e in employees){
                 p = ParamFactory.ToParameters(e);
-                RunParamNonQuery(SqlQueries["PQAddEmployee"],p);
+                SqliteTools.RunParamNonQuery(SqlQueries["PQAddEmployee"],p);
             }//foreach
         }//TestInsertEmployeesQuery
         

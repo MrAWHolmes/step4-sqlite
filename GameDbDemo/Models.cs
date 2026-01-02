@@ -13,6 +13,21 @@ public record Employee( string Name,
 
 public static  class ParamFactory
 {
+
+    public static  bool IsValidDate(string data,string paramString,string YearRange)
+    {
+            
+    }//IsValidDate
+
+    
+    public static bool IsValidEmail((string data,string paramString)
+    {
+            
+
+    }//IsValidEmail
+
+
+
     private static bool traceOn = true;    
     public static SqliteParameter[] ToParameters(Employee e)
     // ref : https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex?view=net-10.0 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "VW+fYbIvdgM=",
+  "dgSpecHash": "D/rZcXVrK9E=",
   "success": true,
   "projectFilePath": "C:\\Users\\holmesa\\vscode\\raylib\\step4-sqlite\\GameDbDemo\\GameDbDemo.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\holmesa\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\3.0.2\\sqlitepclraw.bundle_e_sqlite3.3.0.2.nupkg.sha512",
     "C:\\Users\\holmesa\\.nuget\\packages\\sqlitepclraw.config.e_sqlite3\\3.0.2\\sqlitepclraw.config.e_sqlite3.3.0.2.nupkg.sha512",
     "C:\\Users\\holmesa\\.nuget\\packages\\sqlitepclraw.core\\3.0.2\\sqlitepclraw.core.3.0.2.nupkg.sha512",
+    "C:\\Users\\holmesa\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.11\\sqlitepclraw.lib.e_sqlite3.2.1.11.nupkg.sha512",
     "C:\\Users\\holmesa\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\3.0.2\\sqlitepclraw.provider.e_sqlite3.3.0.2.nupkg.sha512"
   ],
   "logs": []

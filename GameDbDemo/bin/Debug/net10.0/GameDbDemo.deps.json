@@ -57,11 +57,6 @@
             "assetType": "native",
             "fileVersion": "0.0.0.0"
           },
-          "runtimes/browser-wasm/nativeassets/net9.0/e_sqlite3.a": {
-            "rid": "browser-wasm",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
           "runtimes/ios-arm/native/e_sqlite3.a": {
             "rid": "ios-arm",
             "assetType": "native",
@@ -84,6 +79,40 @@
           },
           "runtimes/iossimulator-x86/native/e_sqlite3.a": {
             "rid": "iossimulator-x86",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "SQLitePCLRaw.bundle_e_sqlite3/3.0.2": {
+        "dependencies": {
+          "SQLitePCLRaw.config.e_sqlite3": "3.0.2",
+          "SourceGear.sqlite3": "3.50.4.2"
+        }
+      },
+      "SQLitePCLRaw.config.e_sqlite3/3.0.2": {
+        "dependencies": {
+          "SQLitePCLRaw.provider.e_sqlite3": "3.0.2"
+        },
+        "runtime": {
+          "lib/net8.0/SQLitePCLRaw.batteries_v2.dll": {
+            "assemblyVersion": "3.0.2.2801",
+            "fileVersion": "3.0.2.2801"
+          }
+        }
+      },
+      "SQLitePCLRaw.core/3.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/SQLitePCLRaw.core.dll": {
+            "assemblyVersion": "3.0.2.2801",
+            "fileVersion": "3.0.2.2801"
+          }
+        }
+      },
+      "SQLitePCLRaw.lib.e_sqlite3/2.1.11": {
+        "runtimeTargets": {
+          "runtimes/browser-wasm/nativeassets/net9.0/e_sqlite3.a": {
+            "rid": "browser-wasm",
             "assetType": "native",
             "fileVersion": "0.0.0.0"
           },
@@ -177,6 +206,11 @@
             "assetType": "native",
             "fileVersion": "0.0.0.0"
           },
+          "runtimes/win-arm/native/e_sqlite3.dll": {
+            "rid": "win-arm",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
           "runtimes/win-arm64/native/e_sqlite3.dll": {
             "rid": "win-arm64",
             "assetType": "native",
@@ -191,31 +225,6 @@
             "rid": "win-x86",
             "assetType": "native",
             "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "SQLitePCLRaw.bundle_e_sqlite3/3.0.2": {
-        "dependencies": {
-          "SQLitePCLRaw.config.e_sqlite3": "3.0.2",
-          "SourceGear.sqlite3": "3.50.4.2"
-        }
-      },
-      "SQLitePCLRaw.config.e_sqlite3/3.0.2": {
-        "dependencies": {
-          "SQLitePCLRaw.provider.e_sqlite3": "3.0.2"
-        },
-        "runtime": {
-          "lib/net8.0/SQLitePCLRaw.batteries_v2.dll": {
-            "assemblyVersion": "3.0.2.2801",
-            "fileVersion": "3.0.2.2801"
-          }
-        }
-      },
-      "SQLitePCLRaw.core/3.0.2": {
-        "runtime": {
-          "lib/netstandard2.0/SQLitePCLRaw.core.dll": {
-            "assemblyVersion": "3.0.2.2801",
-            "fileVersion": "3.0.2.2801"
           }
         }
       },
@@ -242,7 +251,7 @@
         "dependencies": {
           "Microsoft.Data.Sqlite": "10.0.1",
           "MrH.Console.Tools": "1.0.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "3.0.2"
+          "SQLitePCLRaw.lib.e_sqlite3": "2.1.11"
         },
         "runtime": {
           "MrH.SqliteTools.dll": {
@@ -300,6 +309,13 @@
       "sha512": "sha512-tnbRf0muOOSJK1RLCfyYK13jynFScgL4xMj7yC3oy8lrrGKXTKmOoWjfdV+cFfBRdppm4qST31hvp8ihgIgvMQ==",
       "path": "sqlitepclraw.core/3.0.2",
       "hashPath": "sqlitepclraw.core.3.0.2.nupkg.sha512"
+    },
+    "SQLitePCLRaw.lib.e_sqlite3/2.1.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ev2ytaXiOlWZ4b3R67GZBsemTINslLD1DCJr2xiacpn4tbapu0Q4dHEzSvZSMnVWeE5nlObU3VZN2p81q3XOYQ==",
+      "path": "sqlitepclraw.lib.e_sqlite3/2.1.11",
+      "hashPath": "sqlitepclraw.lib.e_sqlite3.2.1.11.nupkg.sha512"
     },
     "SQLitePCLRaw.provider.e_sqlite3/3.0.2": {
       "type": "package",
